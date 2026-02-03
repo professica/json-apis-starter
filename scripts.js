@@ -2,28 +2,33 @@ function validateData(e){
     //prevent default form submission
     e.preventDefault();
 
-    // get the word that the user entered in the input, store in variable named word
-    // TO DO
-    let word;
+    let word = document.getElementById("my-word").value.trim();
 
-    word = word.trim();
+    // word = word.trim();
 
     if(word.length < 1 || parseInt(word)){
         document.getElementById("user-word").innerHTML = "Please enter a word before clicking the button";
         resetDisplay();
     }else{
-        // if the word is valid, let's make our call to the function that works with the API
-        // TO DO
+        getWord(word);
     }
 }
 
 function getWord(word){
 
     // places on the page used for output
-    // TO DO
+    let outputSection = document.getElementById("output");
+    let userWord = document.querySelector("#user-word span");
+    let display = document.getElementById("display-word-info");
+
+    // an empty string to build output
+    let output = "";
+
+    // create the inner list of definitions for this part of speech
+    let definitionList = "<ul>";
 
     // un-hide the output section
-    // TO DO
+    outputSection.classList.remove("hidden");
 
     // clear the list of any previous output
     resetDisplay();
@@ -31,79 +36,91 @@ function getWord(word){
     // create ajax object
     // TO DO
 
-    // set withCredentials property on ajax object to true (we will access with a key)
-    // TO DO
-
     // ready state change event listener
     // TO DO
-        
         // when we get a response...
         // TO DO
             // log the returned text to the console
-            // TO DO	
-
-            // parse the response into JSON
             // TO DO
+
+            // parse the response into JSON, store in the wordInfo variable
+            let wordInfo; // TO DO
 
             // check to see if an error was returned from the call
             // TO DO
-            /* PLACE THESE COMMENTS INSIDE OF THE FIRST IF CONDITIONAL THAT CHECKS FOR A VALID ENGLISH WORD AS INSTRUCTED, THEN DELETE THIS LINE AND THE ONE THAT CLOSES THE GROUP
                 // display an error message to the user
-                // TO DO
+                // userWord.innerHTML = `You have entered <strong>${"TO DO"}</strong>, which is not a valid word`;
 
                 // clear the list to allow for an error message to be displayed
-                // TO DO
+                // resetDisplay(); // TO DO uncomment
 
-                // ask the user to enter a valid word
-                // display.innerHTML = "<li>Please enter a new word and try again</li>";
-            */
-    
-            // check to see if the word is valid but the dictionary doesn't have any definitions
+                // add the error message and resolution to the page from the API data
+                // display.innerHTML = `
+                //     <li>${"TO DO"}</li>
+                //     <li>${"TO DO"}</li>
+                // `;
+            
+            // successful call
             // TO DO
-
-            /* PLACE THESE COMMENTS INSIDE OF THE ELSE IF CONDITIONAL THAT CHECKS FOR A VALID ENGLISH WORD THAT THERE ISN'T A DEFINITION FOR AS INSTRUCTED, THEN DELETE THIS LINE AND THE ONE THAT CLOSES THE GROUP
-                // display the word the user entered on the page
-                // userWord.innerHTML = `<strong>${word}</strong>`;
-
-                // display a message explaining that the dictionary does not include definitions of this word
-                // display.innerHTML = `<li>The dictionary does not include definitions for this word</li>`;
-
-            */
-
-            // handle displaying definitions for a valid word
-            /* PLACE THESE COMMENTS INSIDE OF THE ELSE CONDITIONAL THAT HANDLES VALID WORD AND DEFINITIONS RETURNED AS INSTRUCTED, THEN DELETE THIS LINE AND THE ONE THAT CLOSES THE GROUP
-                // this means we got our data back and can display it from the JSON
                 // display the word entered on the page
-                // TO DO
+                // userWord.innerHTML = `<strong>${word}</strong>`; // TO DO uncomment
                 
-                // clear the list to allow for new definitions to be displayed (use the helper function)
+                // clear the list to allow for new definitions to be displayed
+                // resetDisplay(); // TO DO uncomment
+
+                // iterate through array of returned definitions and add to string for output using a regular for loop
                 // TO DO
 
-                // iterate through array of returned definitions and add to string for output
-                // TO DO
                     // each definition is displayed in a list item
+                    // output += `<li><strong>Part of Speech: ${"TO DO"}</strong>`;
+
+                    // add each included definition to the inner list using a for of loop
                     // TO DO
-            */
+                        // definitionList += `<li>${"TO DO"}</li>`;
+                    
+
+                    // close the inner list of definitions and add to output
+                    // definitionList += "</ul>"; // TO DO uncomment
+
+                    // close the list item of definitions under the current part of speech
+                    // output += definitionList + "</li>"; // TO DO uncomment
+
+                    // reset the definitionList variable for the next part of speech
+                    // definitionList = "<ul>"; // TO DO uncomment
+                    
+                
+
+                // add the output string to the page
+                // display.innerHTML += output; // TO DO uncomment
+
+                // reset the output string
+                // output = ""; // TO DO uncomment
 
                 // clear the user input to make room for another word
-                resetInput();
-        
+                // resetInput(); // TO DO uncomment
+
+            // the closing bracket for the else statement handling a good response will go below
+            // TO DO
+
+        // the closing bracket for the if statement in the event handler when readyStatus changes to DONE will go below
+        // TO DO
+
+    // The closing bracket/parentheses for the readyStateChange event handler will go below
+    // TO DO
 
     // start of endpoint to API
-    // TO DO
+    const PATH = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
     // full path of endpoint to get a definition
-    // TO DO
+    let URL = `${PATH}${word}`;
 
     // open the connection with the ajax object
-    // TO DO
+    xhr.open("GET", URL);
 
-    // set the required headers on the object
-    // xhr.setRequestHeader("x-rapidapi-key", "TO DO"); // TO DO - ADD YOUR API KEY HERE
-    // TO DO
+    // this is where you would set headers if you needed to
 
     // send the request to the API
-    // TO DO
+    xhr.send();
 }
 
 // this helper function clears out the input and output for the user word
@@ -116,7 +133,6 @@ function resetInput(){
 // this helper function clears out the list where we display definitions or errors
 function resetDisplay(){
     document.getElementById("display-word-info").innerHTML = "";
-    // document.getElementById("recursive").innerHTML = "";
 }
 
 //attach event handler to button in form
@@ -127,68 +143,267 @@ let today = new Date();
 document.querySelector("footer span").textContent = today.getFullYear();
 
 /* Example of returned JSON data for the word "no"
+    [
     {
-        "word":"no",
-        "results":[
+        "word": "no",
+        "phonetic": "/nəʊ/",
+        "phonetics": [
             {
-                "definition":"a radioactive transuranic element synthesized by bombarding curium with carbon ions; 7 isotopes are known",
-                "partOfSpeech":"noun",
-                "synonyms":[
-                    "atomic number 102",
-                    "nobelium"
-                ],
-                "typeOf":[
-                    "chemical element",
-                    "element"
-                ]
+                "text": "/nəʊ/",
+                "audio": "https://api.dictionaryapi.dev/media/pronunciations/en/no-uk.mp3",
+                "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9023276",
+                "license": {
+                    "name": "BY 3.0 US",
+                    "url": "https://creativecommons.org/licenses/by/3.0/us"
+                }
             },
             {
-                "definition":"referring to the degree to which a certain quality is present",
-                "partOfSpeech":"adverb",
-                "synonyms":[
-                    "no more"
-                ],
-                "examples":[
-                    "he was no heavier than a child"
-                ]
-            },
-            {
-                "definition":"a negative",
-                "partOfSpeech":"noun",
-                "typeOf":[
-                    "negative"
-                ],
-                "antonyms":[
-                    "yes"
-                ],
-                "examples":[
-                    "his no was loud and clear"
-                ]
-            },
-            {
-                "definition":"(quantifier) used with either mass nouns or plural count nouns for indicating a complete or almost complete lack or zero quantity of",
-                "partOfSpeech":"adjective",
-                "similarTo":[
-                    "nary",
-                    "none",
-                    "zero"
-                ],
-                "antonyms":[
-                    "all",
-                    "some"
-                ],
-                "examples":[
-                    "we have no bananas",
-                    "no eggs left and no money to buy any",
-                    "have you no decency?",
-                    "did it with no help",
-                    "I'll get you there in no time"
-                ]
+                "text": "/noʊ/",
+                "audio": "https://api.dictionaryapi.dev/media/pronunciations/en/no-us.mp3",
+                "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=711582",
+                "license": {
+                    "name": "BY-SA 3.0",
+                    "url": "https://creativecommons.org/licenses/by-sa/3.0"
+                }
             }
         ],
-        "pronunciation":{
-            "all":"noʊ"
+        "meanings": [
+            {
+                "partOfSpeech": "noun",
+                "definitions": [
+                    {
+                        "definition": "A negating expression; an answer that shows disagreement or disapproval",
+                        "synonyms": [],
+                        "antonyms": []
+                    },
+                    {
+                        "definition": "A vote not in favor, or opposing a proposition",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "The workers voted on whether to strike, and there were thirty \"yeses\" and two \"nos\"."
+                    }
+                ],
+                "synonyms": [
+                    "nay",
+                    "nope"
+                ],
+                "antonyms": [
+                    "aye",
+                    "yea",
+                    "yes"
+                ]
+            },
+            {
+                "partOfSpeech": "adverb",
+                "definitions": [
+                    {
+                        "definition": "(now only used with different, with comparatives more and less, and informally with certain other adjectives such as good and fun) Not, not at all.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "I just want to find out whether she's coming or no. (Scotland)"
+                    }
+                ],
+                "synonyms": [],
+                "antonyms": []
+            },
+            {
+                "partOfSpeech": "preposition",
+                "definitions": [
+                    {
+                        "definition": "Without",
+                        "synonyms": [],
+                        "antonyms": []
+                    },
+                    {
+                        "definition": "Like",
+                        "synonyms": [],
+                        "antonyms": []
+                    }
+                ],
+                "synonyms": [],
+                "antonyms": []
+            }
+        ],
+        "license": {
+            "name": "CC BY-SA 3.0",
+            "url": "https://creativecommons.org/licenses/by-sa/3.0"
         },
-        "frequency":6.78
+        "sourceUrls": [
+            "https://en.wiktionary.org/wiki/no"
+        ]
+    },
+    {
+        "word": "no",
+        "phonetic": "/nəʊ/",
+        "phonetics": [
+            {
+                "text": "/nəʊ/",
+                "audio": "https://api.dictionaryapi.dev/media/pronunciations/en/no-uk.mp3",
+                "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9023276",
+                "license": {
+                    "name": "BY 3.0 US",
+                    "url": "https://creativecommons.org/licenses/by/3.0/us"
+                }
+            },
+            {
+                "text": "/noʊ/",
+                "audio": "https://api.dictionaryapi.dev/media/pronunciations/en/no-us.mp3",
+                "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=711582",
+                "license": {
+                    "name": "BY-SA 3.0",
+                    "url": "https://creativecommons.org/licenses/by-sa/3.0"
+                }
+            }
+        ],
+        "meanings": [
+            {
+                "partOfSpeech": "adverb",
+                "definitions": [
+                    {
+                        "definition": "At or towards the interior of a defined space, such as a building or room.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "He ran to the edge of the swimming pool and dived in."
+                    },
+                    {
+                        "definition": "Towards the speaker or other reference point.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "For six hours the tide flows in, then for another six hours it flows out."
+                    },
+                    {
+                        "definition": "So as to be enclosed or surrounded by something.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "Bring the water to the boil and drop the vegetables in."
+                    },
+                    {
+                        "definition": "Still eligible to play, e.g. able to bat in cricket and baseball.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "He went for the wild toss but wasn't able to stay in."
+                    },
+                    {
+                        "definition": "After the beginning of something.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "The show still didn't become interesting 20 minutes in."
+                    },
+                    {
+                        "definition": "(in combination, after a verb) Denotes a gathering of people assembled for the stated activity, sometimes, though not always, suggesting a protest.",
+                        "synonyms": [],
+                        "antonyms": []
+                    }
+                ],
+                "synonyms": [],
+                "antonyms": []
+            },
+            {
+                "partOfSpeech": "noun",
+                "definitions": [
+                    {
+                        "definition": "An abstract entity used to describe quantity.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "Zero, one, −1, 2.5, and pi are all numbers."
+                    },
+                    {
+                        "definition": "A numeral: a symbol for a non-negative integer.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "The number 8 is usually made with a single stroke."
+                    },
+                    {
+                        "definition": "An element of one of several sets: natural numbers, integers, rational numbers, real numbers, complex numbers, and sometimes extensions such as hypercomplex numbers, etc.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "The equation e^{i\\pi}+1=0 includes the most important numbers: 1, 0, \\pi, i, and e."
+                    },
+                    {
+                        "definition": "(Followed by a numeral; used attributively) Indicating the position of something in a list or sequence. Abbreviations: No or No., no or no. (in each case, sometimes written with a superscript \"o\", like Nº or №). The symbol \"#\" is also used in this manner.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "Horse number 5 won the race."
+                    },
+                    {
+                        "definition": "Quantity.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "Any number of people can be reading from a given repository at a time."
+                    },
+                    {
+                        "definition": "A sequence of digits and letters used to register people, automobiles, and various other items.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "Her passport number is C01X864TN."
+                    },
+                    {
+                        "definition": "A telephone number.",
+                        "synonyms": [],
+                        "antonyms": []
+                    },
+                    {
+                        "definition": "(grammar) Of a word or phrase, the state of being singular, dual or plural, shown by inflection.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "Adjectives and nouns should agree in gender, number, and case."
+                    },
+                    {
+                        "definition": "(in the plural) Poetic metres; verses, rhymes.",
+                        "synonyms": [],
+                        "antonyms": []
+                    },
+                    {
+                        "definition": "A performance; especially, a single song or song and dance routine within a larger show.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "For his second number, he sang \"The Moon Shines Bright\"."
+                    },
+                    {
+                        "definition": "A person.",
+                        "synonyms": [],
+                        "antonyms": []
+                    },
+                    {
+                        "definition": "An item of clothing, particularly a stylish one.",
+                        "synonyms": [],
+                        "antonyms": []
+                    },
+                    {
+                        "definition": "A marijuana cigarette, or joint; also, a quantity of marijuana bought form a dealer.",
+                        "synonyms": [],
+                        "antonyms": []
+                    },
+                    {
+                        "definition": "An issue of a periodical publication.",
+                        "synonyms": [],
+                        "antonyms": [],
+                        "example": "the latest number of a magazine"
+                    },
+                    {
+                        "definition": "A large amount, in contrast to a smaller amount; numerical preponderance.",
+                        "synonyms": [],
+                        "antonyms": []
+                    }
+                ],
+                "synonyms": [
+                    "numeral",
+                    "rime",
+                    "scalar"
+                ],
+                "antonyms": []
+            }
+        ],
+        "license": {
+            "name": "CC BY-SA 3.0",
+            "url": "https://creativecommons.org/licenses/by-sa/3.0"
+        },
+        "sourceUrls": [
+            "https://en.wiktionary.org/wiki/No.",
+            "https://en.wiktionary.org/wiki/in",
+            "https://en.wiktionary.org/wiki/no",
+            "https://en.wiktionary.org/wiki/number"
+        ]
     }
+]
  */
